@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Books;
 use App\Entity\UserBooks;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,32 +21,35 @@ class UserBooksRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBooks::class);
     }
 
-    // /**
-    //  * @return UserBooks[] Returns an array of UserBooks objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?UserBooks
+    /**
+     * @param int $userId
+     * @param int $bookId
+     * @return UserBooks|null
+     */
+    public function findOneBySomeField(int $userId, int $bookId): ?UserBooks
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
     }
-    */
+
+    /**
+     * @param Users $user
+     * @param Books $book
+     * @return bool
+     */
+    public function save(Users $user, Books $book) :bool
+    {
+        try{
+            $userBooks = new UserBooks;
+            $userBooks->setUserId($user);
+            $userBooks->setBookId($book);
+            $this->_em->persist($userBooks);
+            $this->_em->flush($userBooks);
+        } catch (\Doctrine\ORM\ORMException | \Doctrine\ORM\OptimisticLockException $ex){
+            return false;
+        }
+
+        return true;
+
+    }
 }
