@@ -19,8 +19,10 @@ class BooksRepository extends ServiceEntityRepository
         parent::__construct($registry, Books::class);
     }
 
+
     /**
      * @param $value
+     *
      * @return Books|null
      */
     public function findById($value)
@@ -32,9 +34,10 @@ class BooksRepository extends ServiceEntityRepository
     /**
      * @param int $page
      * @param int $limit
+     *
      * @return array|null
      */
-    public function getAllBooks(int $page, int $limit) :?array
+    public function getAllBooks(int $page, int $limit): ?array
     {
         return $this->createQueryBuilder('b')
             ->getQuery()

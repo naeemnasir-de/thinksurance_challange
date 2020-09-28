@@ -16,7 +16,7 @@ class JsonParserController extends AbstractController
     public function index(JsonFilesImporterService $jsonFilesImporter)
     {
         $response = new JsonResponse();
-        $data = $jsonFilesImporter->importFiles();
+        $data     = $jsonFilesImporter->importFiles();
         if ($data === null) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
                 ->setData($jsonFilesImporter->getLastErrorMessage());

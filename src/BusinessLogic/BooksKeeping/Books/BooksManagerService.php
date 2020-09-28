@@ -16,6 +16,7 @@ use App\Repository\UserBooksRepository;
 /** The only responsibility of this class is to add, delete, list,update book
  *
  * Class BooksManagerService
+ *
  * @package App\BusinessLogic\BooksKeeping
  */
 class BooksManagerService implements BooksManagerServiceInterface
@@ -26,28 +27,34 @@ class BooksManagerService implements BooksManagerServiceInterface
      * @var string
      */
     private $lastErrorMessage;
+
     /**
      * @var BooksRepository
      */
     private $booksRepository;
+
     /**
      * @var UsersManagerService
      */
     private $usersManagerService;
+
     /**
      * @var UserBooksRepository
      */
     private $userBooksRepository;
 
+
     public function __construct(
         BooksRepository $booksRepository,
         UsersManagerService $usersManagerService,
         UserBooksRepository $userBooksRepository
-    ) {
-        $this->booksRepository = $booksRepository;
+    )
+    {
+        $this->booksRepository     = $booksRepository;
         $this->usersManagerService = $usersManagerService;
         $this->userBooksRepository = $userBooksRepository;
     }
+
 
     /**
      * @return array
@@ -57,9 +64,11 @@ class BooksManagerService implements BooksManagerServiceInterface
         return $this->booksRepository->getAllBooks($page, $limit);
     }
 
+
     /**
      * @param int $bookId
      * @param int $userId
+     *
      * @return bool
      */
     public function purchaseBook(int $bookId, int $userId): bool
@@ -83,7 +92,7 @@ class BooksManagerService implements BooksManagerServiceInterface
         $userBooks = $this->userBooksRepository->findOneBy(
             [
                 UsersManagerService::USER_ID => $userId,
-                self::BOOK_ID => $bookId,
+                self::BOOK_ID                => $bookId,
             ]
         );
 
@@ -104,14 +113,17 @@ class BooksManagerService implements BooksManagerServiceInterface
 
     }
 
+
     /**
      * @param $id
+     *
      * @return Books|null
      */
     private function findById($id): ?Books
     {
         return $this->booksRepository->findById($id);
     }
+
 
     /**
      * @return string
@@ -120,6 +132,7 @@ class BooksManagerService implements BooksManagerServiceInterface
     {
         return $this->lastErrorMessage;
     }
+
 
     /**
      * @param string $lastErrorMessage

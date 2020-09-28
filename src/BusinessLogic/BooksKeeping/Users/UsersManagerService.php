@@ -11,6 +11,12 @@ namespace App\BusinessLogic\BooksKeeping\Users;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
 
+/** The only responsibility of this class is to add, delete, list,update user
+ *
+ * Class UsersManagerService
+ *
+ * @package App\BusinessLogic\BooksKeeping\Users
+ */
 class UsersManagerService implements UsersManagerServiceInterface
 {
     public const USER_ID = 'user_id';
@@ -20,8 +26,10 @@ class UsersManagerService implements UsersManagerServiceInterface
      */
     private $repository;
 
+
     /**
      * UsersManagerService constructor.
+     *
      * @param UsersRepository $repository
      */
     public function __construct(UsersRepository $repository)
@@ -29,9 +37,11 @@ class UsersManagerService implements UsersManagerServiceInterface
         $this->repository = $repository;
     }
 
+
     /**
      * @param int $page
      * @param int $limit
+     *
      * @return array
      */
     public function getAllUsers(int $page, int $limit): array
@@ -39,8 +49,10 @@ class UsersManagerService implements UsersManagerServiceInterface
         return $this->repository->getAllUsers($page, $limit);
     }
 
+
     /**
      * @param $id
+     *
      * @return Users|null
      */
     public function findById($id): ?Users

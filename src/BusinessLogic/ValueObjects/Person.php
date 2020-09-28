@@ -11,13 +11,19 @@ namespace App\BusinessLogic\ValueObjects;
 
 class Person extends ListRef
 {
-    const FIRST_NAME ='firstName';
-    const LAST_NAME ='lastName';
-    const BIRTHDAY ='birthday';
-    const ADDRESS ='address';
-    const PHONE ='phoneNumber';
+    const FIRST_NAME = 'firstName';
+    const LAST_NAME  = 'lastName';
+    const BIRTHDAY   = 'birthday';
+    const ADDRESS    = 'address';
+    const PHONE      = 'phoneNumber';
 
-    public static function createFromArray(array $data) :self
+
+    /**
+     * @param array $data
+     *
+     * @return Person
+     */
+    public static function createFromArray(array $data): self
     {
         $obj = new static;
         $obj->setFirstName($data[self::FIRST_NAME] ?? null);
@@ -29,77 +35,27 @@ class Person extends ListRef
         return $obj;
     }
 
-    public function toArray(): array
-    {
-        return [
-            self::FIRST_NAME => $this->getFirstName(),
-            self::LAST_NAME => $this->getLastName(),
-            self::BIRTHDAY => $this->getBirthday(),
-            self::ADDRESS => $this->getAddress(),
-            self::PHONE => $this->getPhone(),
-        ];
-    }
 
     /**
      * @codeCoverageIgnore
      *
      * @param string $firstName
      */
-    public function setFirstName(string $firstName) :void
+    public function setFirstName(string $firstName): void
     {
         $this->offsetSet(self::FIRST_NAME, $firstName);
     }
 
-    /**
-     * @codeCoverageIgnore
-     *
-     * @return string|null
-     */
-    public function getFirstName() :?string
-    {
-        return $this->offsetGet(self::FIRST_NAME);
-    }
 
     /**
-     *@codeCoverageIgnore
+     * @codeCoverageIgnore
      *
      * @param string $lastName
      */
 
-    public function setLastName(string $lastName) :void
+    public function setLastName(string $lastName): void
     {
         $this->offsetSet(self::LAST_NAME, $lastName);
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @return string|null
-     */
-    public function getLastName() :?string
-    {
-        return  $this->offsetGet(self::LAST_NAME);
-    }
-
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @param string $birthday
-     */
-    public function setBirthday(string $birthday) :void
-    {
-        $this->offsetSet(self::BIRTHDAY, $birthday);
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @return string|null
-     */
-    public function getBirthday() :?string
-    {
-        return  $this->offsetGet(self::BIRTHDAY);
     }
 
 
@@ -108,19 +64,20 @@ class Person extends ListRef
      *
      * @param string $address
      */
-    public function setAddress(string $address) :void
+    public function setAddress(string $address): void
     {
         $this->offsetSet(self::ADDRESS, $address);
     }
 
+
     /**
      * @codeCoverageIgnore
      *
-     * @return string|null
+     * @param string $birthday
      */
-    public function getAddress() :?string
+    public function setBirthday(string $birthday): void
     {
-        return  $this->offsetGet(self::ADDRESS,);
+        $this->offsetSet(self::BIRTHDAY, $birthday);
     }
 
 
@@ -129,19 +86,79 @@ class Person extends ListRef
      *
      * @param string $phone
      */
-    public function setPhone(string $phone) :void
+    public function setPhone(string $phone): void
     {
         $this->offsetSet(self::PHONE, $phone);
     }
+
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            self::FIRST_NAME => $this->getFirstName(),
+            self::LAST_NAME  => $this->getLastName(),
+            self::BIRTHDAY   => $this->getBirthday(),
+            self::ADDRESS    => $this->getAddress(),
+            self::PHONE      => $this->getPhone(),
+        ];
+    }
+
 
     /**
      * @codeCoverageIgnore
      *
      * @return string|null
      */
-    public function getPhone() :?string
+    public function getFirstName(): ?string
     {
-        return  $this->offsetGet(self::PHONE);
+        return $this->offsetGet(self::FIRST_NAME);
+    }
+
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string|null
+     */
+    public function getLastName(): ?string
+    {
+        return $this->offsetGet(self::LAST_NAME);
+    }
+
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string|null
+     */
+    public function getBirthday(): ?string
+    {
+        return $this->offsetGet(self::BIRTHDAY);
+    }
+
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->offsetGet(self::ADDRESS,);
+    }
+
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->offsetGet(self::PHONE);
     }
 
 }

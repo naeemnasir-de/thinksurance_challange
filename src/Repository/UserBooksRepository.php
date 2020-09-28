@@ -25,6 +25,7 @@ class UserBooksRepository extends ServiceEntityRepository
     /**
      * @param int $userId
      * @param int $bookId
+     *
      * @return UserBooks|null
      */
     public function findOneBySomeField(int $userId, int $bookId): ?UserBooks
@@ -32,20 +33,23 @@ class UserBooksRepository extends ServiceEntityRepository
         return $this->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
     }
 
+
     /**
      * @param Users $user
      * @param Books $book
+     *
      * @return bool
      */
-    public function save(Users $user, Books $book) :bool
+    public function save(Users $user, Books $book): bool
     {
-        try{
+        try {
             $userBooks = new UserBooks;
             $userBooks->setUserId($user);
             $userBooks->setBookId($book);
             $this->_em->persist($userBooks);
             $this->_em->flush($userBooks);
-        } catch (\Doctrine\ORM\ORMException | \Doctrine\ORM\OptimisticLockException $ex){
+        }
+        catch (\Doctrine\ORM\ORMException | \Doctrine\ORM\OptimisticLockException $ex) {
             return false;
         }
 

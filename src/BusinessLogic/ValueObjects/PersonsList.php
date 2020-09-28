@@ -11,6 +11,11 @@ namespace App\BusinessLogic\ValueObjects;
 
 class PersonsList extends ListRef
 {
+    /**
+     * @param array $rows
+     *
+     * @return PersonsList
+     */
     public static function createFromRows(array $rows): self
     {
         $instance = new self;
@@ -26,6 +31,7 @@ class PersonsList extends ListRef
 
     /**
      * @param array $data
+     *
      * @return PersonsList
      */
     public function addFromArray(array $data): self
@@ -34,14 +40,12 @@ class PersonsList extends ListRef
     }
 
 
-
     /**
      * @return array
      */
     public function render(): array
     {
         $return = [];
-
         foreach ($this as $offset => $item) {
             $return[$offset] = $item->toArray();
         }

@@ -17,9 +17,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Override scandir
- * @param $directory
+ *
+ * @param      $directory
  * @param null $sorting_order
  * @param null $context
+ *
  * @return array
  */
 function scandir($directory, $sorting_order = null, $context = null)
@@ -36,10 +38,10 @@ function file_get_contents(): string
 {
     return \json_encode(
         [
-            'firstName' => 'xxx',
-            'lastName' => 'abc',
-            'birthday' => '02,1259',
-            'address' => 'langstrasse',
+            'firstName'   => 'xxx',
+            'lastName'    => 'abc',
+            'birthday'    => '02,1259',
+            'address'     => 'langstrasse',
             'phoneNumber' => '0300',
         ]
     );
@@ -80,8 +82,8 @@ class JsonFilesImporterServiceTest extends TestCase
         parent::setUp();
 
         $this->filesystem = $this->createMock(Filesystem::class);
-        $this->params = $this->createMock(ParameterBagInterface::class);
-        $this->appLogger = $this->createMock(LoggerInterface::class);
+        $this->params     = $this->createMock(ParameterBagInterface::class);
+        $this->appLogger  = $this->createMock(LoggerInterface::class);
 
         $this->instance = new JsonFilesImporterService(
             $this->filesystem,
@@ -90,9 +92,10 @@ class JsonFilesImporterServiceTest extends TestCase
         );
     }
 
+
     public function testImportFiles(): void
     {
-        $projectDir = \uniqid('projectDir', true);
+        $projectDir   = \uniqid('projectDir', true);
         $jsonFilesDir = \uniqid('files', true);
 
         $this->params->expects(static::exactly(2))
@@ -123,6 +126,7 @@ class JsonFilesImporterServiceTest extends TestCase
         static::assertInstanceOf(PersonsList::class, $this->instance->importFiles());
     }
 
+
     public function testImportFilesWithRootDirNotFound(): void
     {
         $this->params->expects(static::once())
@@ -133,9 +137,10 @@ class JsonFilesImporterServiceTest extends TestCase
         static::assertEquals('Directory not found !', $this->instance->getLastErrorMessage());
     }
 
+
     public function testImportFilesWithFileNotFound(): void
     {
-        $projectDir = \uniqid('projectDir', true);
+        $projectDir   = \uniqid('projectDir', true);
         $jsonFilesDir = \uniqid('files', true);
 
         $this->params->expects(static::exactly(2))

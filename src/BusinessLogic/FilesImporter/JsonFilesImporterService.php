@@ -42,15 +42,18 @@ class JsonFilesImporterService
      */
     private $appLogger;
 
+
     public function __construct(
         Filesystem $filesystem,
         ParameterBagInterface $params,
         LoggerInterface $appLogger
-    ) {
+    )
+    {
         $this->filesystem = $filesystem;
-        $this->params = $params;
-        $this->appLogger = $appLogger;
+        $this->params     = $params;
+        $this->appLogger  = $appLogger;
     }
+
 
     /**
      * @return array
@@ -72,6 +75,7 @@ class JsonFilesImporterService
 
     }
 
+
     /**
      * @return string|null
      */
@@ -80,8 +84,9 @@ class JsonFilesImporterService
         if ($this->folderDir !== null) {
             return $this->folderDir;
         }
-        if (!$this->params->has('kernel.project_dir') ||
-            !$this->params->has('app.json_files_dir')) {
+        if (!$this->params->has('kernel.project_dir')
+            || !$this->params->has('app.json_files_dir')
+        ) {
             $this->folderDir = null;
         }
         $this->folderDir = $this->params->get('kernel.project_dir') .
@@ -90,8 +95,10 @@ class JsonFilesImporterService
         return $this->folderDir;
     }
 
+
     /**
      * @param string $dirPath
+     *
      * @return array|null
      */
     private function getFilesFromDirectory(string $dirPath): ?array
@@ -104,8 +111,10 @@ class JsonFilesImporterService
         return \array_diff($result, ['.', '..']);
     }
 
+
     /**
      * @param array $files
+     *
      * @return array
      */
     private function getPersons(array $files): PersonsList
@@ -117,7 +126,8 @@ class JsonFilesImporterService
 
             if ($content === null) {
                 $this->appLogger->error(
-                    \sprintf("%s unable to read file: %s",
+                    \sprintf(
+                        "%s unable to read file: %s",
                         __METHOD__,
                         $name
                     )
@@ -129,7 +139,8 @@ class JsonFilesImporterService
             // json string is invalid
             if ($contentAsArray === null) {
                 $this->appLogger->error(
-                    \sprintf("%s unable to parse file: %s",
+                    \sprintf(
+                        "%s unable to parse file: %s",
                         __METHOD__,
                         $name
                     )
@@ -143,8 +154,10 @@ class JsonFilesImporterService
 
     }
 
+
     /**
      * @param string $fileName
+     *
      * @return string
      */
     private function getFilePath(string $fileName): ?string
@@ -156,8 +169,10 @@ class JsonFilesImporterService
         return $fileDir . self::DIRECTORY_SEPARATOR . $fileName;
     }
 
+
     /**
      * @param string $filePath
+     *
      * @return string|null
      */
     private function getFileContent(string $filePath): ?string
@@ -165,10 +180,14 @@ class JsonFilesImporterService
         if (!$this->filesystem->exists($filePath)) {
             return null;
         }
+        /** As file size is very small we can use file_get_contents
+         * If the files size is huge than we consider line by line reading to avoid memory exhaust
+         **/
         $result = file_get_contents($filePath);
 
         return $result;
     }
+
 
     /**
      * @return string
@@ -178,6 +197,7 @@ class JsonFilesImporterService
         return $this->lastErrorMessage;
 
     }
+
 
     /**
      * @param string $lastErrorMessage

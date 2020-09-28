@@ -27,6 +27,7 @@ class UsersManagerServiceTest extends TestCase
      */
     private $instance;
 
+
     public function setUp(): void
     {
         parent::setUp();
@@ -38,10 +39,11 @@ class UsersManagerServiceTest extends TestCase
         );
     }
 
+
     public function testGetAllUsers(): void
     {
-        $page = \random_int(10, 100);
-        $limit = \random_int(10, 100);
+        $page   = \random_int(10, 100);
+        $limit  = \random_int(10, 100);
         $result = ['users' => 'users'];
 
         $this->repository->expects(static::once())
@@ -57,7 +59,7 @@ class UsersManagerServiceTest extends TestCase
     public function testFindById(): void
     {
         $userId = \random_int(10, 100);
-        $user = $this->createMock(Users::class);
+        $user   = $this->createMock(Users::class);
 
         $this->repository->expects(static::once())
             ->method('findById')

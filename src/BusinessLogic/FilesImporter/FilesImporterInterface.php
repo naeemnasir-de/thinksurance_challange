@@ -15,6 +15,7 @@ use App\BusinessLogic\ValueObjects\PersonsList;
  * i.e jsonImporter, xmlImporter
  *
  * Interface FilesImporterInterface
+ *
  * @package App\BusinessLogic\FilesImporter
  */
 interface FilesImporterInterface

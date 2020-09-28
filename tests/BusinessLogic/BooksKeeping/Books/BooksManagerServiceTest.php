@@ -17,7 +17,6 @@ use App\Repository\BooksRepository;
 use App\Repository\UserBooksRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Throwable;
 
 class BooksManagerServiceTest extends TestCase
 {
@@ -25,14 +24,17 @@ class BooksManagerServiceTest extends TestCase
      * @var string
      */
     private $lastErrorMessage;
+
     /**
      * @var BooksRepository|MockObject
      */
     private $booksRepository;
+
     /**
      * @var UsersManagerService|MockObject
      */
     private $usersManagerService;
+
     /**
      * @var UserBooksRepository|MockObject
      */
@@ -43,13 +45,14 @@ class BooksManagerServiceTest extends TestCase
      */
     private $instance;
 
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->userBooksRepository = $this->createMock(UserBooksRepository::class);
         $this->usersManagerService = $this->createMock(UsersManagerService::class);
-        $this->booksRepository = $this->createMock(BooksRepository::class);
+        $this->booksRepository     = $this->createMock(BooksRepository::class);
 
         $this->instance = new BooksManagerService(
             $this->booksRepository,
@@ -58,6 +61,7 @@ class BooksManagerServiceTest extends TestCase
         );
 
     }
+
 
     /**
      * @covers \App\BusinessLogic\BooksKeeping\Books\BooksManagerService::purchaseBook
@@ -76,6 +80,7 @@ class BooksManagerServiceTest extends TestCase
         static::assertFalse($this->instance->purchaseBook($bookId, $userId));
     }
 
+
     /**
      * @covers \App\BusinessLogic\BooksKeeping\Books\BooksManagerService::purchaseBook
      *
@@ -85,7 +90,7 @@ class BooksManagerServiceTest extends TestCase
     {
         $bookId = random_int(10, 100);
         $userId = random_int(10, 100);
-        $book = $this->createMock(Books::class);
+        $book   = $this->createMock(Books::class);
 
         $this->booksRepository->expects(static::once())
             ->method('findById')
@@ -108,12 +113,12 @@ class BooksManagerServiceTest extends TestCase
      */
     public function testPurchaseBookWithBookAlreadyPurchasedBySameUser(): void
     {
-        $bookId = random_int(10, 100);
-        $userId = random_int(10, 100);
-        $book = $this->createMock(Books::class);
-        $user = $this->createMock(Users::class);
+        $bookId    = random_int(10, 100);
+        $userId    = random_int(10, 100);
+        $book      = $this->createMock(Books::class);
+        $user      = $this->createMock(Users::class);
         $userBooks = $this->createMock(UserBooks::class);
-        $criteria = ['user_id' => $userId, 'book_id' => $bookId];
+        $criteria  = ['user_id' => $userId, 'book_id' => $bookId];
 
         $this->booksRepository->expects(static::once())
             ->method('findById')
@@ -141,10 +146,10 @@ class BooksManagerServiceTest extends TestCase
      */
     public function testPurchaseBook(): void
     {
-        $bookId = random_int(10, 100);
-        $userId = random_int(10, 100);
-        $book = $this->createMock(Books::class);
-        $user = $this->createMock(Users::class);
+        $bookId   = random_int(10, 100);
+        $userId   = random_int(10, 100);
+        $book     = $this->createMock(Books::class);
+        $user     = $this->createMock(Users::class);
         $criteria = ['user_id' => $userId, 'book_id' => $bookId];
 
         $this->booksRepository->expects(static::once())
@@ -174,8 +179,8 @@ class BooksManagerServiceTest extends TestCase
     public function testgetAllBooks(): void
     {
         $result = ['book' => 'book'];
-        $page = random_int(10, 100);
-        $limit = random_int(10, 100);
+        $page   = random_int(10, 100);
+        $limit  = random_int(10, 100);
         $this->booksRepository->expects(static::once())
             ->method('getAllBooks')
             ->with(static::equalTo($page), static::equalTo($limit))

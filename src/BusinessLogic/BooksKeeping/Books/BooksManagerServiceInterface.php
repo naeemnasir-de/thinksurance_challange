@@ -11,6 +11,15 @@ namespace App\BusinessLogic\BooksKeeping\Books;
 
 interface BooksManagerServiceInterface
 {
-    public function getAllBooks(int $page, int $limit) :array;
+    public function getAllBooks(int $page, int $limit): array;
+
+
+    /**
+     * @param int $bookId
+     * @param int $userId
+     *
+     * @return bool
+     */
+    public function purchaseBook(int $bookId, int $userId): bool;
 
 }
