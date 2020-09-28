@@ -11,10 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+/**
+ * @Route("/books", name="books")
+ *
+ * Class BooksController
+ *
+ * @package App\Controller
+ */
 class BooksController extends AbstractController
 {
     /**
-     * @Route("/books", name="books")
+     * @Route("", name="books")
      */
     public function index(BooksManagerService $booksManagerService, Request $request)
     {
@@ -28,7 +35,9 @@ class BooksController extends AbstractController
 
 
     /**
-     * @Route("/books/purchase", name="books")
+     * @Route("/purchase", name="books_purchase")
+     *
+     * @Method({"POST"})
      *
 
      */
