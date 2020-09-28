@@ -1,1 +1,1 @@
-{"firstName":"naeem","lastName":"naeem","address":"naeem","birthday":"naeem","phoneNumber":"naeem","firstName":"naeem"}
+{"firstName":"Ali","lastName":"Minhas","address":"hauptwache","birthday":"20-20-1990","phoneNumber":"03454044934"}

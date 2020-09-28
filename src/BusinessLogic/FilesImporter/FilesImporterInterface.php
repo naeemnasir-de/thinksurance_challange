@@ -8,6 +8,8 @@
 
 namespace App\BusinessLogic\FilesImporter;
 
+use App\BusinessLogic\ValueObjects\PersonsList;
+
 /**
  * Every importer class have to implement this interface
  * i.e jsonImporter, xmlImporter
@@ -17,5 +19,6 @@ namespace App\BusinessLogic\FilesImporter;
  */
 interface FilesImporterInterface
 {
+    public function importFiles(): ?PersonsList;
 
 }

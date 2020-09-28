@@ -8,7 +8,6 @@
 
 namespace App\BusinessLogic\FilesImporter;
 
-
 use App\BusinessLogic\ValueObjects\PersonsList;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -17,22 +16,27 @@ use Symfony\Component\Filesystem\Filesystem;
 class JsonFilesImporterService
 {
     public const DIRECTORY_SEPARATOR = '/';
+
     /**
      * @var string
      */
     private $lastErrorMessage;
+
     /**
      * @var Filesystem
      */
     private $filesystem;
-    /**
-     * @var string
-     */
-    private $rootDir;
+
     /**
      * @var ParameterBagInterface
      */
     private $params;
+
+    /**
+     * @var string
+     */
+    private $folderDir;
+
     /**
      * @var LoggerInterface
      */
@@ -44,7 +48,6 @@ class JsonFilesImporterService
         LoggerInterface $appLogger
     ) {
         $this->filesystem = $filesystem;
-
         $this->params = $params;
         $this->appLogger = $appLogger;
     }
@@ -69,6 +72,23 @@ class JsonFilesImporterService
 
     }
 
+    /**
+     * @return string|null
+     */
+    private function getJsonFilesDirectory(): ?string
+    {
+        if ($this->folderDir !== null) {
+            return $this->folderDir;
+        }
+        if (!$this->params->has('kernel.project_dir') ||
+            !$this->params->has('app.json_files_dir')) {
+            $this->folderDir = null;
+        }
+        $this->folderDir = $this->params->get('kernel.project_dir') .
+            $this->params->get('app.json_files_dir');
+
+        return $this->folderDir;
+    }
 
     /**
      * @param string $dirPath
@@ -79,7 +99,7 @@ class JsonFilesImporterService
         if (!$this->filesystem->exists($dirPath)) {
             return null;
         }
-        $result = \scandir($dirPath);
+        $result = scandir($dirPath);
 
         return \array_diff($result, ['.', '..']);
     }
@@ -130,7 +150,7 @@ class JsonFilesImporterService
     private function getFilePath(string $fileName): ?string
     {
         $fileDir = $this->getJsonFilesDirectory();
-        if ($fileDir === null){
+        if ($fileDir === null) {
             return null;
         }
         return $fileDir . self::DIRECTORY_SEPARATOR . $fileName;
@@ -149,20 +169,6 @@ class JsonFilesImporterService
 
         return $result;
     }
-
-    /**
-     * @return string|null
-     */
-    private function getJsonFilesDirectory(): ?string
-    {
-        if (!$this->params->has('kernel.project_dir') ||
-            !$this->params->get('app.json_files_dir')) {
-            return null;
-        }
-        return $this->params->get('kernel.project_dir') .
-            $this->params->get('app.json_files_dir');
-    }
-
 
     /**
      * @return string
